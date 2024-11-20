@@ -1,7 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:minimalist_state/post.dart';
 
 class ListViewState {
-  List<Post> posts = const [
+  MyListViewNotifier<Post> postsNotifier = MyListViewNotifier([
     Post(
         userId: 1,
         id: 1,
@@ -29,26 +30,18 @@ class ListViewState {
       body:
           "ullam et saepe reiciendis voluptatem adipisci\nsit amet autem assumenda provident rerum culpa\nquis hic commodi nesciunt rem tenetur doloremque ipsam iure\nquis sunt voluptatem rerum illo velit",
     ),
-    Post(
-      userId: 1,
-      id: 5,
-      title: "nesciunt quas odio",
-      body:
-          "repudiandae veniam quaerat sunt sed\nalias aut fugiat sit autem sed est\nvoluptatem omnis possimus esse voluptatibus quis\nest aut tenetur dolor neque",
-    ),
-    Post(
-      userId: 1,
-      id: 6,
-      title: "dolorem eum magni eos aperiam quia",
-      body:
-          "ut aspernatur corporis harum nihil quis provident sequi\nmollitia nobis aliquid molestiae\nperspiciatis et ea nemo ab reprehenderit accusantium quas\nvoluptate dolores velit et doloremque molestiae",
-    ),
-    Post(
-      userId: 1,
-      id: 7,
-      title: "magnam facilis autem",
-      body:
-          "dolore placeat quibusdam ea quo vitae\nmagni quis enim qui quis quo nemo aut saepe\nquidem repellat excepturi ut quia\nsunt ut sequi eos ea sed quas",
-    ),
-  ];
+  ]);
+}
+
+class MyListViewNotifier<T> extends ValueNotifier<List<T>> {
+  MyListViewNotifier(super.value);
+  void removePostTapped(T post) {
+    value.remove(post);
+    notifyListeners();
+  }
+
+  void addPostTapped(T post) {
+    value.add(post);
+    notifyListeners();
+  }
 }

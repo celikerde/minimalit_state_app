@@ -3,6 +3,8 @@ import 'package:minimalist_state/counter_icon.dart';
 import 'package:minimalist_state/counter_state.dart';
 import 'package:minimalist_state/counter_text.dart';
 import 'package:minimalist_state/list_view_container.dart';
+import 'package:minimalist_state/list_view_state.dart';
+import 'package:minimalist_state/post.dart';
 import 'package:minimalist_state/service_locator.dart';
 
 void main() {
@@ -86,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final state = getIt.get<CounterState>();
+    final state2 = getIt.get<ListViewState>();
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -136,6 +139,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: ListViewContainer()),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final post = Post(userId: 1, id: 4, title: "desf", body: "erefe");
+          state2.postsNotifier.addPostTapped(post);
+        },
+        child: Icon(Icons.add),
       ),
     );
   }
