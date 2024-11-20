@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:minimalist_state/counter_icon.dart';
 import 'package:minimalist_state/counter_state.dart';
 import 'package:minimalist_state/counter_text.dart';
+import 'package:minimalist_state/list_view_container.dart';
 import 'package:minimalist_state/service_locator.dart';
 
 void main() {
@@ -50,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
+          alignment: Alignment.bottomCenter,
           title: const Text('AlertDialog Title'),
           content: const SingleChildScrollView(
             child: ListBody(
@@ -61,9 +63,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           actions: <Widget>[
             TextButton(
-              child: const Text('Approve'),
+              child: const Text('Continue'),
               onPressed: () {
                 Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Reset'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                final state = getIt.get<CounterState>();
+                state.resetCounter();
               },
             ),
           ],
@@ -92,37 +102,40 @@ class _MyHomePageState extends State<MyHomePage> {
               'You have pushed the button this many times:',
             ),
             CounterText(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {
+                    final state = getIt.get<CounterState>();
+                    state.incrementCounter();
+                  },
+                  tooltip: 'Increment',
+                  child: const Icon(Icons.add),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    final state = getIt.get<CounterState>();
+                    state.resetCounter();
+                  },
+                  tooltip: 'Reset',
+                  child: const Icon(Icons.exposure_zero),
+                ),
+                FloatingActionButton(
+                  onPressed: () {
+                    final state = getIt.get<CounterState>();
+                    state.decrementCounter();
+                  },
+                  tooltip: 'Decrement',
+                  child: const Icon(Icons.remove),
+                ),
+              ],
+            ),
+            SizedBox(
+                height: MediaQuery.of(context).size.height * 0.6,
+                child: ListViewContainer()),
           ],
         ),
-      ),
-      floatingActionButton: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          FloatingActionButton(
-            onPressed: () {
-              final state = getIt.get<CounterState>();
-              state.incrementCounter();
-            },
-            tooltip: 'Increment',
-            child: const Icon(Icons.add),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              final state = getIt.get<CounterState>();
-              state.resetCounter();
-            },
-            tooltip: 'Reset',
-            child: const Icon(Icons.exposure_zero),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              final state = getIt.get<CounterState>();
-              state.decrementCounter();
-            },
-            tooltip: 'Decrement',
-            child: const Icon(Icons.remove),
-          ),
-        ],
       ),
     );
   }
